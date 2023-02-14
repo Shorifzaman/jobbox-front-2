@@ -1,44 +1,39 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { MdEmail } from "react-icons/md";
-import {
-  BsFillBriefcaseFill,
-  BsFillPersonFill,
-  BsPeopleFill,
-} from "react-icons/bs";
-import { FaLayerGroup, FaTransgender } from "react-icons/fa";
-import { SiAuth0 } from "react-icons/si";
+import { BsFillPersonFill, BsMailbox2 } from "react-icons/bs";
+import { FaCity, FaTransgender } from "react-icons/fa";
+import { GrLocation, GrMapLocation } from "react-icons/gr";
+import { useParams } from "react-router-dom";
+import { useGetUserInformationQuery } from "../features/job/jobApi";
+import Loading from "../components/reusable/Loading";
 
-const EmployerDashboard = () => {
-  const user = useSelector((state) => state.auth.user);
-  const {
-    firstName,
-    lastName,
-    companyCategory,
-    companyName,
-    email,
-    employeeRange,
-    gender,
-    roleInCompany,
-  } = user;
+const CandidateDetails = () => {
+  const { email } = useParams();
+
+  const { data, isLoading } = useGetUserInformationQuery(email, {
+    skip: !email,
+  });
+  const { firstName, lastName, gender, address, postcode, city, country } =
+    data?.data || {};
+  if (isLoading) {
+    return <Loading />;
+  }
   return (
-    <div className="overflow-hidden bg-secondary/20 m-5  shadow-md rounded-md">
+    <div className="overflow-hidden bg-secondary/20 m-5 shadow-md rounded-md pt-14">
       <div className="flex flex-col sm:items-center pb-10">
-        <div className="p-8">
+        <div className="p-8 text-center">
           <h3 className="text-2xl font-medium leading-6 text-primary">
-            Employer Information
+            Candidate Information
           </h3>
           <p className="mt-1 text-md text-gray-600">
-            Your are using an employer account
+            This information is assigned by candidate in Job Box
           </p>
         </div>
         <div className="sm:flex justify-evenly w-full px-6 sm:px-0">
           <div>
-            <h4 className="text-lg font-medium text-primary">
-              User Information
-            </h4>
+            <h4 className="text-lg font-medium text-primary">Candidate</h4>
             <p className="mt-1 text-md text-gray-600">
-              Your Personal Information
+              Candidate Personal Information
             </p>
             <div className="mt-4 space-y-4">
               <div className="flex">
@@ -78,60 +73,54 @@ const EmployerDashboard = () => {
           </div>
           <div>
             <h4 className="text-lg font-medium text-primary mt-6 sm:mt-0">
-              Organization Information
+              Candidate Location
             </h4>
             <p className="mt-1 text-md text-gray-600">
-              Your Company Information
+              Candidate Current Location
             </p>
             <div className="mt-4 space-y-4">
               <div className="flex">
                 <div className="flex h-5 items-center">
                   <div className="flex h-5 items-center">
-                    <BsFillBriefcaseFill />
+                    <GrLocation />
                   </div>
                 </div>
                 <div className="ml-3 text-md">
-                  <h5 className="font-medium text-gray-700">Company Name</h5>
-                  <p className="text-gray-500">{companyName}</p>
+                  <h5 className="font-medium text-gray-700">Address</h5>
+                  <p className="text-gray-500">{address}</p>
                 </div>
               </div>
               <div className="flex items-start">
                 <div className="flex h-5 items-center">
                   <div className="flex h-5 items-center">
-                    <FaLayerGroup />
+                    <BsMailbox2 />
                   </div>
                 </div>
                 <div className="ml-3 text-md">
-                  <h5 className="font-medium text-gray-700">
-                    Company Category
-                  </h5>
-                  <p className="text-gray-500">{companyCategory}</p>
+                  <h5 className="font-medium text-gray-700">Post Code</h5>
+                  <p className="text-gray-500">{postcode}</p>
                 </div>
               </div>
               <div className="flex items-start">
                 <div className="flex h-5 items-center">
                   <div className="flex h-5 items-center">
-                    <BsPeopleFill />
+                    <FaCity />
                   </div>
                 </div>
                 <div className="ml-3 text-md">
-                  <h5 className="font-medium text-gray-700">
-                    Number of Employee
-                  </h5>
-                  <p className="text-gray-500">{employeeRange}</p>
+                  <h5 className="font-medium text-gray-700">City</h5>
+                  <p className="text-gray-500">{city}</p>
                 </div>
               </div>
               <div className="flex items-start">
                 <div className="flex h-5 items-center">
                   <div className="flex h-5 items-center">
-                    <SiAuth0 />
+                    <GrMapLocation />
                   </div>
                 </div>
                 <div className="ml-3 text-md">
-                  <h5 className="font-medium text-gray-700">
-                    Your Role In The Company
-                  </h5>
-                  <p className="text-gray-500">{roleInCompany}</p>
+                  <h5 className="font-medium text-gray-700">Country</h5>
+                  <p className="text-gray-500">{country}</p>
                 </div>
               </div>
             </div>
@@ -142,4 +131,4 @@ const EmployerDashboard = () => {
   );
 };
 
-export default EmployerDashboard;
+export default CandidateDetails;
