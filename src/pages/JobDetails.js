@@ -22,7 +22,7 @@ const JobDetails = () => {
   const { user } = useSelector((state) => state.auth);
   const { register, handleSubmit, reset } = useForm();
   const navigate = useNavigate();
-  const { data, isLoading } = useJobByIdQuery(id, { pollingInterval: 5000 });
+  const { data, isLoading } = useJobByIdQuery(id, { pollingInterval: 3000 });
   const [applyJob, { isSuccess }] = useApplyJobMutation();
   const [closeApply] = useCloseApplicationMutation();
   const [sendQuestion] = useAskQuestionMutation();
@@ -75,10 +75,10 @@ const JobDetails = () => {
 
   const handleQuestion = ({ question }) => {
     const data = {
+      ...question,
       jobId: _id,
       userId: user._id,
       email: user.email,
-      question,
     };
     sendQuestion(data);
     reset();
