@@ -1,6 +1,4 @@
-# React App
-
-![alt text](/jobbox-starter/src/screenshots/Home-Page.png)
+![alt text](/screenshots/Home-Page.png)
 
 # JobBox Apps🧑‍💼
 <p>JobBox Recruiting - a job hiring website. In this site, recruiter can post their jobs attaching all the details about the job. Moreover, a candidate can find their desired job based on their preference. Besides, Candidate can ask any question related to any posted Job and the Employee who posted the job can reply.</p>
